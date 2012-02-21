@@ -27,7 +27,7 @@ OD = $(CROSS_COMPILE)objdump
 LNKSCRIPT = stm32f10x_flash_offset.ld
 MFLAGS  = -mcpu=cortex-m3 -mthumb
 ASFLAGS = $(MFLAGS)
-CFLAGS  = $(MFLAGS) $(INCLUDES) -c -fno-common -Os -g
+CFLAGS  = $(MFLAGS) $(INCLUDES) -c -fno-common -Os -g -Wall
 LFLAGS  = $(MFLAGS) -T $(LNKSCRIPT) -nostartfiles
 
 CSRC = \

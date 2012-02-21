@@ -6,6 +6,8 @@
 #include "HW_V1_Config.h"
 #include "usb_lib.h"
 #include "msd.h"
+#include<stdlib.h>
+
 
 unsigned const short Char_Dot[760] =
 {
@@ -327,19 +329,32 @@ void Fill_Rectangle(short x0, short y0, short width, short height, short Color)
 
 //*****************************************************************************
 // draw line with color
-void Draw_Line (int x0, int y0, int x1, int y1, color)
+// x0 must be less than x1
+void Draw_Line (int x0, int y0, int x1, int y1, int color)
 {
-	int delta = (1024*(y1-y0))/(x1-x0);
-	int i;
-	for (i = 0; i < x1-x0; i++) {
-		static int prevY = y0;
-		int newY = y0+(i*delta)/1024;
-		if (newY != prevY) {
-			Point_SCR (i+x0, newY);
+	if (abs(x1-x0)>abs(y1-y0)) {
+		int delta = (1024*(y1-y0))/(x1-x0);
+		int i;
+		for (i = 0; i < x1-x0; i++) {
+			Point_SCR (i+x0, y0+(i*delta)/1024);
 			Set_Pixel (color);
-			prevY = newY;
+		}
+	} else {
+		int delta = (1024*(x1-x0))/(y1-y0);
+		int i;
+		if (y1>y0) {
+			for (i = 0; i < y1-y0; i++) {
+				Point_SCR (x0+(i*delta)/1024, i+y0);
+				Set_Pixel (color);
+			}
+		} else {
+			for (i = 0; i < y0-y1; i++) {
+				Point_SCR (x0-(i*delta)/1024, y0-i);
+				Set_Pixel (color);
+			}
 		}
 	}
+
 }
 
 

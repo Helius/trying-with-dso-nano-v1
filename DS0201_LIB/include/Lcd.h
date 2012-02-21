@@ -3,10 +3,23 @@
 *******************************************************************************/
 #ifndef __LCD_H
 #define __LCD_H
+#define LCD_WIDTH   320
+#define LCD_HEIGHT  240
+#define LCD_X1      0
+#define LCD_X2      (LCD_WIDTH - LCD_X1 - 1)
+#define LCD_Y1      0
+#define LCD_Y2      (LCD_HEIGHT - LCD_Y1 - 1)
+#define X_SIZE      300
+#define Y_SIZE      200
+#define MIN_X       1
+#define MIN_Y       20
+#define MAX_X       (MIN_X + X_SIZE - 1)
+#define MAX_Y       (MIN_Y + Y_SIZE - 1)
+
 
 //============================== Color definitions =============================
 
-#define RGB(_R,_G,_B) (((_R & 0x3E) >> 1) | ((_G & 0x3f) << 5) | ((_B & 0x3e) << 10))
+#define RGB(_R,_G,_B) (((_R & 0x3E) >> 1) | ((_G & 0x3F) << 5) | ((_B & 0x3E) << 10))
 
 #define YEL         RGB(63,63,0)
 #define WHITE       RGB(63,63,63)

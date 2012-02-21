@@ -48,17 +48,24 @@ void main(void)
   
   //WaitForKey();
 
-  app_stack = (void *) *(vu32 *)(__APP_VECTORS);
-  app_reset = (pFunction) *(vu32 *)(__APP_VECTORS + 4);
+//  app_stack = (void *) *(vu32 *)(__APP_VECTORS);
+//  app_reset = (pFunction) *(vu32 *)(__APP_VECTORS + 4);
+//
+///* if stack pointer points to RAM this may be a valid vector table */
+//  if (((int) app_stack & 0xFFFE0000) == 0x20000000) {
+//      Display_Str(168, 23, WHITE,   PRN, "Jump to APP");
+//      (*app_reset)();
+//  }
+//
+///* No app found, just hang */
+//  Display_Str(8, 7, RED,   PRN, "Error: No valid application found");
+	Clear_Screen (BLACK);
+	Draw_Line (10,10,200,20,BLUE);
+	Draw_Line (10,10,20,200,WHITE);
 
-/* if stack pointer points to RAM this may be a valid vector table */
-  if (((int) app_stack & 0xFFFE0000) == 0x20000000) {
-      Display_Str(168, 23, WHITE,   PRN, "Jump to APP");
-      (*app_reset)();
-  }
+	Draw_Line (10,200,30,20,YEL);
+	Draw_Line (10,200,200,180,GRN);
 
-/* No app found, just hang */
-  Display_Str(8, 7, RED,   PRN, "Error: No valid application found");
   while (1) {};
 
 }
