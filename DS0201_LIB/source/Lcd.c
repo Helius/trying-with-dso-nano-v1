@@ -186,6 +186,33 @@ void LCD_WR_REG(unsigned short Reg, unsigned short Data)
 }
 
 /*******************************************************************************
+Function Name : LCD_SET_WINDOW
+Description : use  (x1,y1) and (x2,y2) to set a rectangle  area
+Para :  (x1,y1) and (x2,y2) 
+*******************************************************************************/
+void LCD_SET_WINDOW(short x1, short x2, short y1, short y2)
+{
+   LCD_WR_REG(0x0050, y1);
+   LCD_WR_REG(0x0051, y2);
+   LCD_WR_REG(0x0052, x1);
+   LCD_WR_REG(0x0053, x2);
+
+   LCD_WR_REG(0x0020, y1);
+   LCD_WR_REG(0x0021, x1);
+
+   LDC_DATA_OUT = 0x0022; // Reg. Addr.
+
+   LCD_RS_LOW(); // RS=0,Piont to Index Reg.
+
+   LCD_nWR_ACT(); // WR Cycle from 1 -> 0 -> 1
+
+   LCD_nWR_ACT(); // WR Cycle from 1 -> 0 -> 1
+
+   LCD_RS_HIGH(); // RS=1,Piont to object Reg.
+
+}
+
+/*******************************************************************************
  LCD  initializtion 
 *******************************************************************************/
 void LCD_Initial(void)
@@ -266,6 +293,7 @@ void Point_SCR(unsigned short x0, unsigned short y0)
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
   LCD_RS_HIGH();            
 }
+
 /*******************************************************************************
  Set_Pixel: Set a Pixel  Input: Color
 *******************************************************************************/
@@ -274,6 +302,7 @@ void Set_Pixel(unsigned short Color)
   LDC_DATA_OUT=Color;   //Color Data
   LCD_nWR_ACT();        //WR Cycle from 1 -> 0 -> 1
 }
+
 /*******************************************************************************
  Clear Screen 
 *******************************************************************************/
@@ -283,6 +312,19 @@ void Clear_Screen(unsigned short Color)
   Point_SCR(0, 0);    //X_pos=0, Y_pos=0
   for(i=0;i<240*320;++i) Set_Pixel(Color);
 }
+
+/*******************************************************************************
+ Fill_Rectangle (x0,y0,width,heigh) with color
+*******************************************************************************/
+void Fill_Rectangle(short x0, short y0, short width, short height, short Color)
+{
+  int i;
+  LCD_SET_WINDOW(x0, x0 + width - 1, y0, y0 + height - 1); // limit write to rectangle
+  for (i = 0; i < width * height; i++)
+     Set_Pixel(Color);
+  LCD_SET_WINDOW(LCD_X1, LCD_X2, LCD_Y1, LCD_Y2); // restore full screen
+}
+
 /*******************************************************************************
  Display_Str: Display String   Input: x, y , Color, Mode, String  
 *******************************************************************************/
