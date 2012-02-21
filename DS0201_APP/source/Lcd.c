@@ -513,7 +513,7 @@ Para : (x0,y0) is the coordinate of the start point of the string
        Mode=PRN Normal replace Display, Mode=INV Inverse replace Display
        s is the string
 *******************************************************************************/
-void      Display_Str(short x0, short y0, short Color, char Mode, unsigned const char *s)
+void Display_Str(short x0, short y0, short Color, char Mode, unsigned const char *s)
 {
    short     i, j, b;
 
@@ -529,7 +529,7 @@ void      Display_Str(short x0, short y0, short Color, char Mode, unsigned const
          {
             if (b & 4)
               Set_Pixel(Mode?frm_col:Color);
-	    else
+						else
               Set_Pixel(Mode?Color:frm_col);
             b >>= 1;
          }
@@ -540,9 +540,9 @@ void      Display_Str(short x0, short y0, short Color, char Mode, unsigned const
 
    }
    LCD_SET_WINDOW(LCD_X1, LCD_X2, LCD_Y1, LCD_Y2); // Restore full screen
-
 }
 
+//*****************************************************************************
 void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)
 {
   char  buf[10], n = 0, k, str[2] = {'-', 0};

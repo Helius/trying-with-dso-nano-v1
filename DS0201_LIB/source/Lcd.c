@@ -325,6 +325,24 @@ void Fill_Rectangle(short x0, short y0, short width, short height, short Color)
   LCD_SET_WINDOW(LCD_X1, LCD_X2, LCD_Y1, LCD_Y2); // restore full screen
 }
 
+//*****************************************************************************
+// draw line with color
+void Draw_Line (int x0, int y0, int x1, int y1, color)
+{
+	int delta = (1024*(y1-y0))/(x1-x0);
+	int i;
+	for (i = 0; i < x1-x0; i++) {
+		static int prevY = y0;
+		int newY = y0+(i*delta)/1024;
+		if (newY != prevY) {
+			Point_SCR (i+x0, newY);
+			Set_Pixel (color);
+			prevY = newY;
+		}
+	}
+}
+
+
 /*******************************************************************************
  Display_Str: Display String   Input: x, y , Color, Mode, String  
 *******************************************************************************/
