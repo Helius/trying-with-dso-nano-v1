@@ -77,7 +77,7 @@ void main(void)
 	WgProgressBar_Draw (&pTacho);
 	WgProgressBar_Draw (&pFuel);
 
-	WgProgressBar_SetRange (&pFuel, 0, 100, 10);
+	WgProgressBar_SetRange (&pFuel, 0, 1000, 100);
 	WgProgressBar_SetRange (&pTacho, 0, 100, 10);
 	
 	WgProgressBar_SetValue (&pFuel,30);
@@ -97,12 +97,12 @@ void main(void)
 		WgProgressBar_Update (&pTacho);
 		WgProgressBar_Update (&pFuel);
 		i+=10;
-		y+=10;
+		y+=155;
 		if (i > 100)
 			i=0;
-		if (y > 100)
+		if (y > 1000)
 			y=0;
-		Delayms (500);
+		Delayms (200);
 	}
 
 }

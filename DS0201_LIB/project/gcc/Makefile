@@ -46,7 +46,8 @@ CSRC = \
        $(PRJ)/source/usb_istr.c \
        $(PRJ)/source/usb_prop.c \
        $(PRJ)/source/usb_pwr.c \
-       $(PRJ)/source/usb_scsi.c
+       $(PRJ)/source/usb_scsi.c \
+       $(PRJ)/source/xprintf.c
 CSRC += \
        $(STM_LIB)/src/stm32f10x_flash.c \
        $(STM_LIB)/src/stm32f10x_nvic.c \
