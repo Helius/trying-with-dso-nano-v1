@@ -330,8 +330,20 @@ void Fill_Rectangle(short x0, short y0, short width, short height, short Color)
 //*****************************************************************************
 // draw line with color
 // x0 must be less than x1
+//*****************************************************************************
 void Draw_Line (int x0, int y0, int x1, int y1, int color)
 {
+	// if line is vertical or horizontal, use fast method
+	if (x0 == x1) {
+		Fill_Rectangle (x0, y0, 1, y1-y0, color);
+		return
+	}
+	if (y0 == y1) {
+		Fill_Rectangle (x0, y0, x1-x0, 1, color);
+		return;
+	}
+	
+	// if slope less than 1, calc Y(X)
 	if (abs(x1-x0)>abs(y1-y0)) {
 		int delta = (1024*(y1-y0))/(x1-x0);
 		int i;
@@ -339,7 +351,7 @@ void Draw_Line (int x0, int y0, int x1, int y1, int color)
 			Point_SCR (i+x0, y0+(i*delta)/1024);
 			Set_Pixel (color);
 		}
-	} else {
+	} else { // if slope more than 1, calc X(Y)
 		int delta = (1024*(x1-x0))/(y1-y0);
 		int i;
 		if (y1>y0) {
@@ -354,7 +366,6 @@ void Draw_Line (int x0, int y0, int x1, int y1, int color)
 			}
 		}
 	}
-
 }
 
 
