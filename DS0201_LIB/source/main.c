@@ -60,36 +60,28 @@ void main(void)
 ///* No app found, just hang */
 //  Display_Str(8, 7, RED,   PRN, "Error: No valid application found");
 	Clear_Screen (BLACK);
-//	Draw_Line (10,10,200,20,BLUE);
-//	Draw_Line (10,10,20,200,WHITE);
-//	Draw_Line (10,200,30,20,YEL);
-//	Draw_Line (10,200,200,180,GRN);
-//
-//	Draw_Line (80,80, 160,80, BLUE);
-//	Draw_Line (160,80,160,240, BLUE);
+	Draw_Line (0,18,320,18,RGB(20,20,20));
 
 	sWProgressBar pTacho;
 	sWProgressBar pFuel;
 	
 	WgProgressBar_SetGeometry (&pTacho, 320 - 60 - 10, 20, 60, 240-30);
 	WgProgressBar_SetGeometry (&pFuel, 10, 20, 60, 240-30);
+	
+	WgProgressBar_SetRange (&pFuel, 50, 150, 10);
+	WgProgressBar_SetRange (&pTacho, 50, 400, 7);
+	
 
 	WgProgressBar_Draw (&pTacho);
 	WgProgressBar_Draw (&pFuel);
 
-	WgProgressBar_SetRange (&pFuel, 0, 1000, 10);
-	WgProgressBar_SetRange (&pTacho, 50, 400, 7);
-	
-	Draw_Line (0,18,320,18,RGB(20,20,20));
 
 	int i = 0;
 	int y = 0;
 	int d = 0;
 	int m = 0;
-		WgProgressBar_SetValue (&pTacho,400);
-		WgProgressBar_Update (&pTacho);
-		Delayms (4000);
-  while (1) {
+  
+	while (1) {
 		WgProgressBar_SetValue (&pTacho,i);
 		WgProgressBar_SetValue (&pFuel,y);
 		WgProgressBar_Update (&pTacho);
@@ -105,12 +97,12 @@ void main(void)
 			d = 0;
 		
 		if (!m)
-			y+=80;
+			y+=4;
 		else
-			y-=100;
-		if (y > 1000)
+			y-=10;
+		if (y > 150)
 			m = 1;
-		if (y <= 0)
+		if (y <= 50)
 			m = 0;
 
 		

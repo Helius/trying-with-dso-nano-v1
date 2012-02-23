@@ -4,6 +4,10 @@
 #define _W_FRAME_COLOR WHITE
 #define _W_BACKGND_COLOR RGB(20,10,20)
 
+#define _W_PGB_TOP_MARGIN   20 // gap for top value text
+#define _W_PGB_LEFT_MAGRIN  20 // gap for left legend marks
+#define _W_PGB_BAR_GAP      2  // horisontale gap beetwen bars
+
 
 typedef struct {
 	int x0;
@@ -14,6 +18,7 @@ typedef struct {
 	int min;
 	int max;
 	int step;
+	int barHeight;
 
 	int value;
 	int oldPos;
