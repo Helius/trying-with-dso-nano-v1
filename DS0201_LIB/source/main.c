@@ -85,6 +85,10 @@ void main(void)
 	int i = 0;
 	int y = 0;
 	int d = 0;
+	int m = 0;
+		WgProgressBar_SetValue (&pTacho,400);
+		WgProgressBar_Update (&pTacho);
+		Delayms (4000);
   while (1) {
 		WgProgressBar_SetValue (&pTacho,i);
 		WgProgressBar_SetValue (&pFuel,y);
@@ -99,11 +103,21 @@ void main(void)
 			d = 1;
 		if (i <= 0)
 			d = 0;
+		
+		if (!m)
+			y+=80;
+		else
+			y-=100;
+		if (y > 1000)
+			m = 1;
+		if (y <= 0)
+			m = 0;
 
 		
-		y+=155;
-		if (y > 1000)
-			y=0;
+//		y+=155;
+//		if (y > 1000)
+//			y=0;
+
 		Delayms (200);
 	}
 

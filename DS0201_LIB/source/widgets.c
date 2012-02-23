@@ -49,8 +49,12 @@ void WgProgressBar_Draw (sWProgressBar * this)
 	Fill_Rectangle (this->x0, this->y0, this->width, this->heigth, _W_FRAME_COLOR);
 	Fill_Rectangle (this->x0+1, this->y0+1, this->width-2, this->heigth-2, _W_BACKGND_COLOR);
 //	//2. draw top value
-  Draw_Str (this->x0+10, this->y0 + this->heigth - 17, GRN, _W_BACKGND_COLOR, "10.3");
+  Draw_Str (this->x0+14, this->y0 + this->heigth - 17, GRN, _W_BACKGND_COLOR, "00.0");
 }
+
+#define _W_PGB_TOP_MARGIN   20 // gap for top value text
+#define _W_PGB_LEFT_MAGRIN  20 // gap for left legend marks
+#define _W_PGB_BAR_GAP      2  // horisontale gap beetwen bars
 
 //*****************************************************************************
 void WgProgressBar_Update (sWProgressBar * this)
@@ -58,37 +62,48 @@ void WgProgressBar_Update (sWProgressBar * this)
 	char text [8];
 	// draw value at top of widget
 	xsprintf (text, "%d.%d", this->value/10, this->value%10);
-  Draw_Str (this->x0+10, this->y0 + this->heigth - 17, GRN, _W_BACKGND_COLOR, text);
+  Draw_Str (this->x0 + 14, this->y0 + this->heigth - 17, GRN, _W_BACKGND_COLOR, text);
 	
-	int barH = (this->heigth - 30) / this->step;
-	int oldBarNmb = this->oldPos/barH;
+	int barHeight = (this->heigth - _W_PGB_TOP_MARGIN) / this->step;
+	int oldBarNmb = this->oldPos/barHeight;
 	int barNmb = 0;
 	int linePos = 0;
 
-	if (this->value >= this->min) {
-		linePos = ((this->value - this->min) * (this->heigth-30)) / (this->max - this->min);
-		barNmb = linePos/barH;
-	}
+	if (this->value >= this->min)
+		linePos = ((this->value - this->min) * (this->heigth - _W_PGB_TOP_MARGIN)) / (this->max - this->min);
 
 	if (linePos == this->oldPos)
 		return;
+	// calc higher bar need to show	
+	barNmb = linePos/barHeight;
 
 	if (barNmb > oldBarNmb) {
 		// draw missing bar
 		for (int i = oldBarNmb; i < barNmb; i++) {
-			Fill_Rectangle (this->x0+20, this->y0+3 + i*barH, this->width-3-20, barH-2, barColors[barNmb]);
+			Fill_Rectangle (this->x0 + _W_PGB_LEFT_MAGRIN,
+											this->y0+3 + i*barHeight,
+											this->width-3-_W_PGB_LEFT_MAGRIN,
+											barHeight-_W_PGB_BAR_GAP,
+											barColors[barNmb]);
+
 			xsprintf (text, "%d", ((((this->max - this->min)/this->step)*i) + this->min)/10);
-			Draw_Str (this->x0+1, this->y0-5 + i*(barH+1),RGB(63,63,63),_W_BACKGND_COLOR, text);
+			Draw_Str (this->x0+1, this->y0-5 + i*(barHeight+1),RGB(63,63,63),_W_BACKGND_COLOR, text);
 		}
 	}
 
 	if (linePos > this->oldPos) {
-		Fill_Rectangle (this->x0 + 20, this->y0 + 3 + (barNmb * barH ), this->width-3-20, linePos - (barNmb * barH), barColors[barNmb+1]);
+		Fill_Rectangle (this->x0 + _W_PGB_LEFT_MAGRIN, 
+										this->y0 + 3 + (barNmb * barHeight ), 
+										this->width - 3 - _W_PGB_LEFT_MAGRIN, 
+										linePos - (barNmb * barHeight), 
+										barColors[barNmb+1]);
 	} else {
-		Fill_Rectangle (this->x0 + 20, linePos + this->y0 + 3 , this->width-3-20, this->oldPos - linePos, _W_BACKGND_COLOR);
+		Fill_Rectangle (this->x0 + _W_PGB_LEFT_MAGRIN, 
+										linePos + this->y0 + 3, 
+										this->width - 3 - _W_PGB_LEFT_MAGRIN,
+										this->oldPos - linePos,
+										_W_BACKGND_COLOR);
 	}
-
-
 
 	this->oldPos = linePos;
 }
