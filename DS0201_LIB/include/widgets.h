@@ -16,7 +16,7 @@ typedef struct {
 	int step;
 
 	int value;
-	int oldBarNmb;
+	int oldPos;
 
 } sWProgressBar;
 

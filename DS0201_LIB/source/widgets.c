@@ -30,7 +30,7 @@ void WgProgressBar_SetRange (sWProgressBar * this, int min_, int max_, int step_
 	this->min = min_;
 	this->max = max_;
 	this->step = step_;
-	this->oldBarNmb = 0;
+	this->oldPos = 0;
 }
 
 //*****************************************************************************
@@ -61,29 +61,34 @@ void WgProgressBar_Update (sWProgressBar * this)
   Draw_Str (this->x0+10, this->y0 + this->heigth - 17, GRN, _W_BACKGND_COLOR, text);
 	
 	int barH = (this->heigth - 30) / this->step;
+	int oldBarNmb = this->oldPos/barH;
 	int barNmb = 0;
 	int linePos = 0;
+
 	if (this->value >= this->min) {
-		barNmb = ((this->value - this->min) * this->step) /(this->max - this->min);
 		linePos = ((this->value - this->min) * (this->heigth-30)) / (this->max - this->min);
+		barNmb = linePos/barH;
 	}
 
-	if (barNmb > this->oldBarNmb) {
+	if (linePos == this->oldPos)
+		return;
+
+	if (barNmb > oldBarNmb) {
 		// draw missing bar
-		for (int i = this->oldBarNmb; i < barNmb; i++) {
+		for (int i = oldBarNmb; i < barNmb; i++) {
 			Fill_Rectangle (this->x0+20, this->y0+3 + i*barH, this->width-3-20, barH-2, barColors[barNmb]);
 			xsprintf (text, "%d", ((((this->max - this->min)/this->step)*i) + this->min)/10);
 			Draw_Str (this->x0+1, this->y0-5 + i*(barH+1),RGB(63,63,63),_W_BACKGND_COLOR, text);
 		}
-	} else if (barNmb < this->oldBarNmb) {
-		// just clear waste bar
-		for (int i = barNmb; i < this->oldBarNmb; i++) {
-			Fill_Rectangle (this->x0+20, this->y0+3 + i*barH, this->width-3-20, barH, _W_BACKGND_COLOR);
-//			xsprintf (text, "%d", ((((this->max - this->min)/this->step)*i) + this->min)/10);
-//			Draw_Str (this->x0+1, this->y0-5 + i*(barH+1),RGB(63,63,63),_W_BACKGND_COLOR,text);
-		}
 	}
-//	Fill_Rectangle (this->x0 + 20, this->y0 + 3 + (barNmb * barH ), this->width-3-20, linePos - (barNmb * barH), barColors[barNmb+1]);
 
-	this->oldBarNmb = barNmb;
+	if (linePos > this->oldPos) {
+		Fill_Rectangle (this->x0 + 20, this->y0 + 3 + (barNmb * barH ), this->width-3-20, linePos - (barNmb * barH), barColors[barNmb+1]);
+	} else {
+		Fill_Rectangle (this->x0 + 20, linePos + this->y0 + 3 , this->width-3-20, this->oldPos - linePos, _W_BACKGND_COLOR);
+	}
+
+
+
+	this->oldPos = linePos;
 }
