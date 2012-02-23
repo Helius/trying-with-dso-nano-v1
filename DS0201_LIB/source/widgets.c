@@ -3,13 +3,13 @@
 #include "xprintf.h"
 
 const int barColors [10] = {
+	RGB(0,0,63),
+	RGB(0,63,63),
 	RGB(0,63,0),
-	RGB(10,63,0),
-	RGB(20,63,0),
-	RGB(30,63,0),
 	RGB(40,63,0),
 	RGB(50,63,0),
-	RGB(55,63,0),
+	RGB(63,63,0),
+	RGB(63,0,0),
 	RGB(63,40,0),
 	RGB(63,30,0),
 	RGB(63,0,0),
@@ -36,7 +36,10 @@ void WgProgressBar_SetRange (sWProgressBar * this, int min_, int max_, int step_
 //*****************************************************************************
 void WgProgressBar_SetValue (sWProgressBar * this, int value_)
 {
-	this->value = value_;
+	if (value_ < this->max)
+		this->value = value_;
+	else
+		this->value = this->max;
 }
 
 //*****************************************************************************
@@ -53,27 +56,34 @@ void WgProgressBar_Draw (sWProgressBar * this)
 void WgProgressBar_Update (sWProgressBar * this)
 {
 	char text [8];
-//	sprintf (text, "%d.%d", this->value/10, this->value%10);
+	// draw value at top of widget
 	xsprintf (text, "%d.%d", this->value/10, this->value%10);
   Draw_Str (this->x0+10, this->y0 + this->heigth - 17, GRN, _W_BACKGND_COLOR, text);
 	
-	int barH = (this->heigth - 20) / this->step;
-	int barNmb = ((this->value-this->min)*this->step)/this->max;
+	int barH = (this->heigth - 30) / this->step;
+	int barNmb = 0;
+	int linePos = 0;
+	if (this->value >= this->min) {
+		barNmb = ((this->value - this->min) * this->step) /(this->max - this->min);
+		linePos = ((this->value - this->min) * (this->heigth-30)) / (this->max - this->min);
+	}
 
 	if (barNmb > this->oldBarNmb) {
 		// draw missing bar
 		for (int i = this->oldBarNmb; i < barNmb; i++) {
-			Fill_Rectangle (this->x0+3, this->y0+3 + i*(barH+1), this->width-6, barH, barColors[barNmb-1]);
-			xsprintf (text, "%d", this->min+((this->max - this->min)*i)/this->step);
-			Draw_Str (this->x0+14, this->y0+3 + i*(barH+1),RGB(20,20,20),barColors[barNmb-1], text);
+			Fill_Rectangle (this->x0+20, this->y0+3 + i*barH, this->width-3-20, barH-2, barColors[barNmb]);
+			xsprintf (text, "%d", ((((this->max - this->min)/this->step)*i) + this->min)/10);
+			Draw_Str (this->x0+1, this->y0-5 + i*(barH+1),RGB(63,63,63),_W_BACKGND_COLOR, text);
 		}
 	} else if (barNmb < this->oldBarNmb) {
 		// just clear waste bar
-		for (int i = barNmb + 1; i < this->oldBarNmb; i++) {
-			Fill_Rectangle (this->x0+3, this->y0+3 + i*(barH+1), this->width-6, barH, _W_BACKGND_COLOR);
-			xsprintf (text, "%d", this->min+((this->max - this->min)*i)/this->step);
-			Draw_Str (this->x0+14, this->y0+3 + i*(barH+1),RGB(20,20,20),_W_BACKGND_COLOR,text);
+		for (int i = barNmb; i < this->oldBarNmb; i++) {
+			Fill_Rectangle (this->x0+20, this->y0+3 + i*barH, this->width-3-20, barH, _W_BACKGND_COLOR);
+//			xsprintf (text, "%d", ((((this->max - this->min)/this->step)*i) + this->min)/10);
+//			Draw_Str (this->x0+1, this->y0-5 + i*(barH+1),RGB(63,63,63),_W_BACKGND_COLOR,text);
 		}
 	}
+//	Fill_Rectangle (this->x0 + 20, this->y0 + 3 + (barNmb * barH ), this->width-3-20, linePos - (barNmb * barH), barColors[barNmb+1]);
+
 	this->oldBarNmb = barNmb;
 }
