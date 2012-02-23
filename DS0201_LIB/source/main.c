@@ -78,31 +78,25 @@ void main(void)
 	WgProgressBar_Draw (&pFuel);
 
 	WgProgressBar_SetRange (&pFuel, 0, 1000, 100);
-	WgProgressBar_SetRange (&pTacho, 0, 100, 10);
+	WgProgressBar_SetRange (&pTacho, 500, 4000, 15);
 	
-	WgProgressBar_SetValue (&pFuel,30);
-	WgProgressBar_SetValue (&pTacho,70);
-
 	Draw_Line (0,18,320,18,RGB(20,20,20));
 
-	WgProgressBar_Update (&pTacho);
-	WgProgressBar_Update (&pFuel);
-
 	int i = 0;
-	int y = 30;
+	int y = 0;
 	int d;
   while (1) {
 		WgProgressBar_SetValue (&pTacho,i);
 		WgProgressBar_SetValue (&pFuel,y);
 		WgProgressBar_Update (&pTacho);
 		WgProgressBar_Update (&pFuel);
-		i+=10;
+		i+=100;
 		y+=155;
-		if (i > 100)
+		if (i > 4000)
 			i=0;
 		if (y > 1000)
 			y=0;
-		Delayms (200);
+		Delayms (100);
 	}
 
 }
