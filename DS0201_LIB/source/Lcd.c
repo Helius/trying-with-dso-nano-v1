@@ -106,61 +106,6 @@ unsigned const short Char_Dot[760] =
    0x0780,0x0480,0x3CF0,0x2010,0x2010,0x2010,0x2010,0x2010 // ~ Empty head
 };                                            
 
-unsigned const short Logo_Dot[] = {
-  7,38,
-  0xfc00,0x00ff,0x0000,0x0000,0x0000,0xfffe,0x0001,
-  0xff00,0x03ff,0x0000,0x0000,0x0000,0xffff,0x0001,
-  0xffc0,0x0fff,0x0000,0x0000,0x8000,0xffff,0x0001,
-  0xffe0,0x0fff,0x0000,0x0000,0xc000,0xffff,0x0001,
-  0xfff0,0x1fff,0x0000,0x0000,0xc000,0xffff,0x0001,
-  0xfff8,0x1ffd,0x0000,0x0000,0xc000,0xffff,0x0000,
-  0xfff8,0x1ffc,0x0000,0x0000,0x0000,0x0ffc,0x0000,
-  0xfff8,0x1ff8,0x0000,0x0000,0x0000,0x0ffe,0x0000,
-  0xfff8,0x1ff8,0x0000,0x0000,0x0000,0x07fe,0x0000,
-  0x7fc0,0x1ffc,0xfe00,0x0000,0x0000,0x07fe,0x0000,
-  0x7fe0,0x1ffc,0xff80,0x3e01,0x0000,0x07ff,0x0000,
-  0x7fe0,0x0ffc,0xffc0,0x3f03,0x0000,0x03ff,0x0000,
-  0x7ff0,0x07fe,0xffe0,0x7f83,0x8000,0x03ff,0x0000,
-  0x3ff0,0x03ff,0xf7f0,0x7f83,0x81f0,0x03ff,0x0000,
-  0x3ff0,0x01ff,0xf3f8,0x3fc3,0x81f8,0x01ff,0x0000,
-  0xfff8,0x007f,0xf3fc,0x3fc3,0xc1fc,0xffff,0x0000,
-  0xfff8,0x00ff,0xf9fc,0x3fe3,0xc1fe,0xffff,0x0000,
-  0xfff8,0x03ff,0xf9fe,0x3fe3,0xc1ff,0xffff,0x0000,
-  0xfffc,0x0fff,0xf9ff,0xbfe1,0xe1ff,0xffff,0x0000,
-  0x8ffc,0x0fff,0xf8ff,0xdff1,0xe1ff,0x7fff,0x0000,
-  0x0ffc,0x1ffe,0xfcff,0xfff0,0xe1ff,0x3fff,0x0000,
-  0x0ffe,0x9ffc,0xfcff,0xfff0,0xe1ff,0x007f,0x0000,
-  0x07fe,0x9ffc,0x7e7f,0xfff0,0xf1ff,0x007f,0x0000,
-  0x07fe,0x9ff8,0x3f7f,0xfff8,0xf1fe,0x003f,0x0000,
-  0x07fe,0x9ff8,0xcfff,0x7ffb,0xf1fe,0x003f,0x0000,
-  0x03ff,0x9ffc,0xf7ff,0x3ffb,0xf9fe,0x003f,0x0000,
-  0x03ff,0x9ffc,0xfcff,0x1ff9,0xfbfe,0x001f,0x0000,
-  0x01ff,0x8ffc,0xffff,0x0ff8,0xfbfe,0x001f,0x0000,
-  0x01ff,0x87fe,0x7fff,0x07f8,0xfbfe,0x000f,0x0000,
-  0x00ff,0x07fe,0x3fff,0x03f8,0xfbfc,0x0007,0x0000,
-  0x00ff,0x03ff,0x0fff,0x03f8,0xfbfc,0x0003,0x0000,
-  0xc7ff,0x00ff,0x03fc,0x01f0,0xf1f8,0x0001,0x0000,
-  0xfff8,0x007f,0x0000,0x0000,0x0000,0x0000,0x0000,
-  0xfffc,0x003f,0x0000,0x0000,0x0000,0x0000,0x0000,
-  0xfffc,0x000f,0x0000,0x0000,0x0000,0x0000,0x0000,
-  0xfffc,0x0003,0x0000,0x0000,0x0000,0x0000,0x0000,
-  0xfff8,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
-  0x3ff0,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000
-};
-
-unsigned const char Ref_Buffer[304] = {
-   100,116,130,144,157,167,175,181,185,185,184,179,173,164,153,141,128,114,100,86, 73, 60, 49, 40, 33, 27, 24, 24, 25, 29,
-   35, 43, 52, 63, 75, 87, 100,112,124,135,145,153,160,164,167,167,166,163,157,150,142,133,122,111,100,89, 79, 70, 61, 54,
-   48, 44, 42, 42, 43, 46, 50, 57, 64, 72, 81, 90, 100,109,118,126,133,139,144,147,149,149,148,146,142,137,130,124,116,108,
-   100,93, 85, 79, 73, 68, 64, 61, 60, 60, 61, 63, 66, 70, 75, 81, 87, 93, 100,106,112,117,122,125,128,130,131,131,131,129,
-   126,123,119,115,110,105,100,96, 91, 88, 84, 81, 79, 78, 77, 78, 78, 80, 82, 84, 87, 90, 93, 97, 100,103,106,108,110,112,
-   113,114,114,113,113,112,110,109,107,105,104,102,100,99, 97, 96, 96, 95, 95, 95, 95, 96, 96, 97, 97, 98, 99, 99, 100,100,
-   100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,
-   100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,115,129,141,151,160,165,169,170,169,167,162,156,148,139,130,
-   120,110,100,91, 82, 75, 68, 63, 59, 57, 56, 56, 58, 61, 64, 69, 75, 81, 87, 94, 100,106,112,117,121,125,127,129,130,130,
-   128,127,124,121,117,113,109,104,100,96, 92, 88, 85, 83, 81, 80, 79, 79, 80, 81, 83, 85, 88, 91, 94, 97, 100,103,106,108,
-   108,108,6,8
- };
 
 unsigned short Get_Font_8x14(unsigned char chr, unsigned char row)
 {
@@ -171,7 +116,7 @@ unsigned short Get_Font_8x14(unsigned char chr, unsigned char row)
 
 unsigned char Get_Ref_Wave(unsigned short idx)
 {
-  return Ref_Buffer[idx];
+  return 0;
 }
 
 /*******************************************************************************
@@ -336,7 +281,7 @@ void Draw_Line (int x0, int y0, int x1, int y1, int color)
 	// if line is vertical or horizontal, use fast method
 	if (x0 == x1) {
 		Fill_Rectangle (x0, y0, 1, y1-y0, color);
-		return
+		return;
 	}
 	if (y0 == y1) {
 		Fill_Rectangle (x0, y0, x1-x0, 1, color);
@@ -401,95 +346,35 @@ void Display_Str(unsigned short x0, unsigned short y0, unsigned short Color, uns
     ++s;                           //next character
   }
 }
-/*******************************************************************************
- Display_Logo: Display Logo   Input: X, Y 
-*******************************************************************************/
-void Display_Logo(unsigned short Dot_x, unsigned short Dot_y)
+
+void Draw_Str(int x0, int y0, int textColor, int bgColor, unsigned const char *s)
 { 
-  unsigned short i, j, k, l, Color, b;
-
-  Color = BLUE;
-  k = 2;
-  for (j=0; j < Logo_Dot[1]; j++) {
-    for (i=0; i < Logo_Dot[0]; i++) {
-      b = Logo_Dot[k];
-      for (l = 0; l < 16; l++) {
-        if (b & 1) {
-          Point_SCR(Dot_x + i * 16 + l, Dot_y + Logo_Dot[1] - j);
-          Set_Pixel(Color);
+  signed short i, j, b; 
+  Point_SCR(x0, y0);
+  for (j=0; j<14;++j) { 
+    Set_Pixel(bgColor);
+  }
+  x0++;        
+  while (*s!=0) {
+    unsigned const short *scanline=Char_Dot+((*s-0x22)*8);
+    for(i=0;i<8;++i){
+      Point_SCR(x0+i, y0);
+      if((*s==0x20)||(*s==0x21)) b=0x0000;
+      else                       b=scanline[i];
+      if((*s==0x21)&&(i==4)) break;
+      for(j=0;j<14;++j){
+        if (b&4) {
+          Set_Pixel(textColor);
+        } else {
+          Set_Pixel(bgColor);
         }
-        b =  b >> 1;
-        if (b == 0) break;
+        b>>=1;
       }
-      k++;
     }
+    if(*s==0x21) x0 +=4;       
+    else  x0 += 8;             
+    ++s;                           //next character
   }
-  
-  Color = WHITE;
-  for (i=0; i<320; ++i)
-  {
-    Point_SCR(i, 0);
-    Set_Pixel(Color);
-    Point_SCR(i, 239);
-    Set_Pixel(Color);
-  }
-
-  for (i=3; i<317; ++i)
-  {
-    Point_SCR(i, 3);
-    Set_Pixel(Color);
-    Point_SCR(i, 236);
-    Set_Pixel(Color);
-  }
-
-  Point_SCR(0, 0);
-  for (j=0; j<240; ++j) Set_Pixel(Color);
-  Point_SCR(3, 3);
-  for (j=3; j<237; ++j) Set_Pixel(Color);
-  Point_SCR(316, 3);
-  for (j=3; j<237; ++j) Set_Pixel(Color);
-  Point_SCR(319, 0);
-  for (j=0; j<240; ++j) Set_Pixel(Color);
-}
-
-
-void Display_Info(unsigned short x0, unsigned short y0, char *Pre, long Num)
-{
-  char  buf[10], n = 0, k, str[2] = {'-', 0};
-  
-  if (Pre) {
-    char *p = Pre;
-    while (*p) p++;
-    Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)Pre);
-    x0 += (p - Pre) * 8 + 8;
-  }
-
-  if (Num < 0) {
-    Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);
-    x0 += 8;
-    Num = -Num;
-  }
-
-  do {  
-    buf[n++] = Num % 10;
-    Num /= 10;
-  } while (Num > 0);
-
-  k = n;
-  
-  for (; n > 0; n--) {
-    str[0] = '0' + buf[n - 1];
-    Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);
-    x0 += 8;
-  }
-  
-  str[0] = ' ';
-  while (k < 10) {
-    Display_Str(x0, y0, WHITE, PRN, (unsigned char const *)str);
-    x0 += 8;
-    k++;
-  }
-  
 }
 
 /******************************** END OF FILE *********************************/

@@ -27,7 +27,7 @@ OD = $(CROSS_COMPILE)objdump
 LNKSCRIPT = stm32f10x_flash_offset.ld
 MFLAGS  = -mcpu=cortex-m3 -mthumb
 ASFLAGS = $(MFLAGS)
-CFLAGS  = $(MFLAGS) $(INCLUDES) -c -fno-common -Os -g -Wall
+CFLAGS  = $(MFLAGS) $(INCLUDES) -c -fno-common -Os -g -Wall -std=gnu99
 LFLAGS  = $(MFLAGS) -T $(LNKSCRIPT) -nostartfiles
 
 CSRC = \
@@ -36,6 +36,7 @@ CSRC = \
        $(PRJ)/source/main.c \
        $(PRJ)/source/HW_V1_Config.c \
        $(PRJ)/source/Lcd.c \
+       $(PRJ)/source/widgets.c \
        $(PRJ)/source/memory.c \
        $(PRJ)/source/msd.c \
        $(PRJ)/source/scsi_data.c \
@@ -45,7 +46,8 @@ CSRC = \
        $(PRJ)/source/usb_istr.c \
        $(PRJ)/source/usb_prop.c \
        $(PRJ)/source/usb_pwr.c \
-       $(PRJ)/source/usb_scsi.c
+       $(PRJ)/source/usb_scsi.c \
+       $(PRJ)/source/xprintf.c
 CSRC += \
        $(STM_LIB)/src/stm32f10x_flash.c \
        $(STM_LIB)/src/stm32f10x_nvic.c \
