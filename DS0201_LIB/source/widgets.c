@@ -55,7 +55,7 @@ void WgProgressBar_Draw (sWProgressBar * this)
 	//3. draw left legend mark
 	for (int i = 1; i < this->step; i++) {
 		xsprintf (text, "%d", ((((this->max - this->min)/this->step)*i) + this->min)/10);
-		Draw_Str (this->x0+1, this->y0-5 + i*(this->barHeight+1),RGB(63,63,63),_W_BACKGND_COLOR, text);
+		Draw_Str (this->x0+3, this->y0-5 + i*(this->barHeight+1),RGB(63,63,63),_W_BACKGND_COLOR, text);
 	}
 }
 
@@ -106,4 +106,71 @@ void WgProgressBar_Update (sWProgressBar * this)
 	}
 
 	this->oldPos = linePos;
+}
+
+
+
+
+
+
+//*****************************************************************************
+//
+
+void Circle(int x, int y, int r)
+{
+	int x1,y1,yk = 0;
+	int sigma,delta,f;
+
+	x1 = 0;
+	y1 = r;
+	delta = 2*(1-r);
+
+	do
+	{
+		Point_SCR(x+x1,y+y1);
+		Set_Pixel (WHITE);
+		Point_SCR(x-x1,y+y1);
+		Set_Pixel (WHITE);
+		Point_SCR(x+x1,y-y1);
+		Set_Pixel (WHITE);
+		Point_SCR(x-x1,y-y1);
+		Set_Pixel (WHITE);
+
+		f = 0;
+		if (y1 < yk)
+						break;
+		if (delta < 0)
+		{
+						sigma = 2*(delta+y1)-1;
+						if (sigma <= 0)
+						{
+										x1++;
+										delta += 2*x1+1;
+										f = 1;
+						}
+		}
+		else
+		if (delta > 0)
+		{
+						sigma = 2*(delta-x1)-1;
+						if (sigma > 0)
+						{
+										y1--;
+										delta += 1-2*y1;
+										f = 1;
+						}
+		}
+		if (!f)
+		{
+						x1++;
+						y1--;
+						delta += 2*(x1-y1-1);
+		}
+	}
+	while(1);
+}
+
+void WgAnalogNeedle_Draw (/*sWAnalogNeedle * this*/)
+{
+	Circle (50,50,25);
 }

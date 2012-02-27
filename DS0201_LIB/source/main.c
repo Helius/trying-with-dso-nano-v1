@@ -38,28 +38,19 @@ void main(void)
  
 /*----------Power ON Information----------*/ 
 
-//  Display_Info(8, 20, "Memory Size", Mass_Memory_Size);
-//  Display_Info(8, 40, "Block Size ", Mass_Block_Size);
-//  Display_Info(8, 60, "Block Count", Mass_Block_Count);
-  Display_Str(80, 87, GRN,   PRN, "System Initializing");
-  Display_Str(102, 71, GRN,   PRN, "Please Wait");
-  Display_Str(8, 39, WHITE, PRN, "DSO Firmware Copyright (c) BenF 2010"); 
   Display_Str(8, 23, YEL,   PRN, "LIB ver 3.01");
   
   //WaitForKey();
 
-//  app_stack = (void *) *(vu32 *)(__APP_VECTORS);
-//  app_reset = (pFunction) *(vu32 *)(__APP_VECTORS + 4);
-//
-///* if stack pointer points to RAM this may be a valid vector table */
-//  if (((int) app_stack & 0xFFFE0000) == 0x20000000) {
-//      Display_Str(168, 23, WHITE,   PRN, "Jump to APP");
-//      (*app_reset)();
-//  }
-//
-///* No app found, just hang */
-//  Display_Str(8, 7, RED,   PRN, "Error: No valid application found");
 	Clear_Screen (BLACK);
+
+
+	Draw_Line (0,18,320,18,RGB(20,20,20));
+	WgAnalogNeedle_Draw ();
+	Draw_Line (0,10,320,10,RGB(20,20,20));
+	while(1);
+
+
 	Draw_Line (0,18,320,18,RGB(20,20,20));
 
 	sWProgressBar pTacho;
@@ -104,11 +95,6 @@ void main(void)
 			m = 1;
 		if (y <= 50)
 			m = 0;
-
-		
-//		y+=155;
-//		if (y > 1000)
-//			y=0;
 
 		Delayms (200);
 	}
