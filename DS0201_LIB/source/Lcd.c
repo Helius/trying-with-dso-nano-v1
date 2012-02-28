@@ -313,6 +313,55 @@ void Draw_Line (int x0, int y0, int x1, int y1, int color)
 	}
 }
 
+//*****************************************************************************
+// draw circle with Bresenham's algorithm
+void Draw_Circle(int x, int y, int r, int color)
+{
+	int x1,y1,yk = 0;
+	int sigma,delta,f;
+
+	x1 = 0;
+	y1 = r;
+	delta = 2*(1-r);
+
+	do
+	{
+		Point_SCR(x+x1,y+y1);
+		Set_Pixel (color);
+		Point_SCR(x-x1,y+y1);
+		Set_Pixel (color);
+		if (y-y1 >= 0) {
+			Point_SCR(x+x1,y-y1);
+			Set_Pixel (color);
+			Point_SCR(x-x1,y-y1);
+			Set_Pixel (color);
+		}
+
+		f = 0;
+		if (y1 < yk)
+			break;
+		if (delta < 0) {
+			sigma = 2*(delta+y1)-1;
+			if (sigma <= 0) {
+				x1++;
+				delta += 2*x1+1;
+				f = 1;
+			}
+		}	else if (delta > 0) {
+			sigma = 2*(delta-x1)-1;
+			if (sigma > 0) {
+				y1--;
+				delta += 1-2*y1;
+				f = 1;
+			}
+		}	if (!f) {
+			x1++;
+			y1--;
+			delta += 2*(x1-y1-1);
+		}
+	}
+	while(1);
+}
 
 /*******************************************************************************
  Display_Str: Display String   Input: x, y , Color, Mode, String  

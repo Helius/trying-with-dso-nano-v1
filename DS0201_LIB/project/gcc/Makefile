@@ -23,6 +23,7 @@ AR = $(CROSS_COMPILE)ar
 AS = $(CROSS_COMPILE)as
 CP = $(CROSS_COMPILE)objcopy
 OD = $(CROSS_COMPILE)objdump
+SZ = $(CROSS_COMPILE)size
   
 LNKSCRIPT = stm32f10x_flash_offset.ld
 MFLAGS  = -mcpu=cortex-m3 -mthumb
@@ -81,6 +82,7 @@ binaries: $(NAME).elf
 	$(OD) -S $(NAME).elf > $(NAME).lst
 	$(CP) -O binary $(NAME).elf $(NAME).bin
 	$(CP) -O ihex $(NAME).elf $(NAME).hex
+	$(SZ) $(NAME).elf
 
 clean:
 	rm -f *.o $(PRJ)/source/*.o $(STM_LIB)/src/*.o $(USB_LIB)/src/*.o \

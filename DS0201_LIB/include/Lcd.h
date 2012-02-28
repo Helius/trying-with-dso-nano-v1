@@ -40,6 +40,7 @@ void LCD_Initial(void);
 void Point_SCR(unsigned short x0, unsigned short y0);
 void Set_Pixel(unsigned short Color);
 void Draw_Line (int x0, int y0, int x1, int y1, int color);
+void Draw_Circle(int x, int y, int r, int color);
 void Draw_Str(int x0, int y0, int textColor, int bgColor, unsigned const char *s);
 void Fill_Rectangle(short x0, short y0, short width, short height, short Color);
 void Clear_Screen(unsigned short Color);

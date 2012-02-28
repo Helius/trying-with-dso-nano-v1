@@ -1,6 +1,7 @@
 #include "widgets.h"
 #include "Lcd.h"
 #include "xprintf.h"
+#include "math.h"
 
 const int barColors [10] = {
 	RGB(0,0,63),
@@ -113,64 +114,16 @@ void WgProgressBar_Update (sWProgressBar * this)
 
 
 
-//*****************************************************************************
-//
-
-void Circle(int x, int y, int r)
-{
-	int x1,y1,yk = 0;
-	int sigma,delta,f;
-
-	x1 = 0;
-	y1 = r;
-	delta = 2*(1-r);
-
-	do
-	{
-		Point_SCR(x+x1,y+y1);
-		Set_Pixel (WHITE);
-		Point_SCR(x-x1,y+y1);
-		Set_Pixel (WHITE);
-		Point_SCR(x+x1,y-y1);
-		Set_Pixel (WHITE);
-		Point_SCR(x-x1,y-y1);
-		Set_Pixel (WHITE);
-
-		f = 0;
-		if (y1 < yk)
-						break;
-		if (delta < 0)
-		{
-						sigma = 2*(delta+y1)-1;
-						if (sigma <= 0)
-						{
-										x1++;
-										delta += 2*x1+1;
-										f = 1;
-						}
-		}
-		else
-		if (delta > 0)
-		{
-						sigma = 2*(delta-x1)-1;
-						if (sigma > 0)
-						{
-										y1--;
-										delta += 1-2*y1;
-										f = 1;
-						}
-		}
-		if (!f)
-		{
-						x1++;
-						y1--;
-						delta += 2*(x1-y1-1);
-		}
-	}
-	while(1);
-}
 
 void WgAnalogNeedle_Draw (/*sWAnalogNeedle * this*/)
 {
-	Circle (50,50,25);
+	float len = 100 * sin (i);
+	Draw_Circle (140,100,120, WHITE);
+	Draw_Circle (140,100,121, WHITE);
+	Draw_Circle (140,100,119, BLUE);
+	Draw_Line (140,100,190,210,RED);
+	Draw_Line (141,100,191,210,RED);
+	Draw_Line (142,100,192,210,RED);
+	Draw_Line (143,100,193,210,RED);
+	Draw_Line (0,0,len,len,GRN);
 }

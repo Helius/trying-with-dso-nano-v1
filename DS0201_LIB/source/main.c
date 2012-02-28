@@ -45,9 +45,9 @@ void main(void)
 	Clear_Screen (BLACK);
 
 
-	Draw_Line (0,18,320,18,RGB(20,20,20));
+//	Draw_Line (0,18,320,18,RGB(20,20,20));
 	WgAnalogNeedle_Draw ();
-	Draw_Line (0,10,320,10,RGB(20,20,20));
+//	Draw_Line (0,10,320,10,RGB(20,20,20));
 	while(1);
 
 
