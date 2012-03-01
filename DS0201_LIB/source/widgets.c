@@ -37,10 +37,16 @@ void WgProgressBar_SetRange (sWProgressBar * this, int min_, int max_, int step_
 //*****************************************************************************
 void WgProgressBar_SetValue (sWProgressBar * this, int value_)
 {
-	if (value_ < this->max)
-		this->value = value_;
-	else
+//	if (value_ < this->max)
+//		this->value = value_;
+//	else
+//		this->value = this->max;
+	if (value_ > this->max)
 		this->value = this->max;
+	else if (value_ < this->min)
+		this->value = this->min;
+	else
+		this->value = value_;
 }
 
 //*****************************************************************************
@@ -114,16 +120,60 @@ void WgProgressBar_Update (sWProgressBar * this)
 
 
 
-
-void WgAnalogNeedle_Draw (/*sWAnalogNeedle * this*/)
+//*****************************************************************************
+void WgAnalogNeedle_SetGeometry (sWAnalogNeedle * this, int x0_, int y0_, int diametr_)
 {
-	float len = 100 * sin (i);
-	Draw_Circle (140,100,120, WHITE);
-	Draw_Circle (140,100,121, WHITE);
-	Draw_Circle (140,100,119, BLUE);
-	Draw_Line (140,100,190,210,RED);
-	Draw_Line (141,100,191,210,RED);
-	Draw_Line (142,100,192,210,RED);
-	Draw_Line (143,100,193,210,RED);
-	Draw_Line (0,0,len,len,GRN);
+	this->x0 = x0_;
+	this->y0 = y0_;
+	this->diametr = diametr_;
 }
+
+//*****************************************************************************
+void WgAnalogNeedle_SetRange (sWAnalogNeedle * this, int min_, int max_, int step_)
+{
+	this->min = min_;
+	this->max = max_;
+	this->step = step_;
+	this->oldValue = 0;
+}
+
+//*****************************************************************************
+void WgAnalogNeedle_SetValue (sWAnalogNeedle * this, int value_)
+{
+	if (value_ > this->max)
+		this->value = this->max;
+	else if (value_ < this->min)
+		this->value = this->min;
+	else
+		this->value = value_;
+}
+
+//*****************************************************************************
+void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
+{
+	rx = this->x0 + this->diametr/2; 
+	ry = this->y0 + this->diametr/2
+	// draw border
+	Draw_Circle (rx, ry, this->diametr/2-1, WHITE);
+	Draw_Circle (rx, ry, this->diametr/2-2, WHITE);
+	Draw_Circle (rx, ry, this->diametr/2-3, BLUE);
+	// draw marks
+	// TODO
+	// draw text
+	// TODO
+	// draw needle at 0
+
+
+//	float len = 100 * sin (i);
+//	Draw_Line (0,0,len,len,GRN);
+}
+
+//*****************************************************************************
+void WgAnalogNeedle_Update (sWAnalogNeedle * this)
+{
+	float alpha = this->value/360;
+	py = (int)(this->diametr*sin (alpha))/2;
+	px = (int)(this->diametr*cos (alpha))/2;
+	Draw_Line (this->rx, this->ry, px, py, RED);
+}
+

@@ -34,38 +34,42 @@ void main(void)
   ADC_Configuration();
   Timer_Configuration();
   LCD_Initial();
-  Clear_Screen(BLACK); 
  
-/*----------Power ON Information----------*/ 
-
-  Display_Str(8, 23, YEL,   PRN, "LIB ver 3.01");
-  
   //WaitForKey();
+  Display_Str(8, 23, YEL,   PRN, "LIB ver 3.01");
 
-	Clear_Screen (BLACK);
 
 
-//	Draw_Line (0,18,320,18,RGB(20,20,20));
+/*-------------- Analog needle test ------------*/
+  Clear_Screen(BLACK); 
+
+	sWAnalogNeedle ndl;
+	WgAnalogNeedle_SetGeometry (&ndl,0,0,200);
+	WgAnalogNeedle_SetRange (&ndl,0,100,10);
 	WgAnalogNeedle_Draw ();
-//	Draw_Line (0,10,320,10,RGB(20,20,20));
-	while(1);
+	int t = 0;
+	while(1) {
+		Delayms (200);
+		t++;
+		if (t > 100)
+			t = 0;
+		WgAnalogNeedle_SetValue (t);
+		WgAnalogNeedle_Update ();
+	}
+/*------------------------------------------------*/
 
 
+
+/*------------- progress bar test ----------------*/
 	Draw_Line (0,18,320,18,RGB(20,20,20));
-
 	sWProgressBar pTacho;
 	sWProgressBar pFuel;
-	
 	WgProgressBar_SetGeometry (&pTacho, 320 - 60 - 10, 20, 60, 240-30);
 	WgProgressBar_SetGeometry (&pFuel, 10, 20, 60, 240-30);
-	
 	WgProgressBar_SetRange (&pFuel, 50, 150, 10);
 	WgProgressBar_SetRange (&pTacho, 50, 400, 7);
-	
-
 	WgProgressBar_Draw (&pTacho);
 	WgProgressBar_Draw (&pFuel);
-
 
 	int i = 0;
 	int y = 0;
@@ -98,6 +102,11 @@ void main(void)
 
 		Delayms (200);
 	}
+/*-----------------------------------------*/
+
+
+
+
 
 }
 /********************************* END OF FILE ********************************/

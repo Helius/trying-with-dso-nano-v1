@@ -27,20 +27,19 @@ typedef struct {
 
 } sWProgressBar;
 
-void WgProgressBar_SetGeometry (sWProgressBar * this, int x0_, int y0_, int width_, int heigth_);
-void WgProgressBar_SetRange (sWProgressBar * this, int min_, int max_, int step_);
-void WgProgressBar_SetValue (sWProgressBar * this, int value);
-void WgProgressBar_Update (sWProgressBar * this);
-void WgProgressBar_Draw (sWProgressBar * );
+void WgProgressBar_SetGeometry (sWProgressBar*, int x0_, int y0_, int width_, int heigth_);
+void WgProgressBar_SetRange (sWProgressBar*, int min_, int max_, int step_);
+void WgProgressBar_SetValue (sWProgressBar*, int value);
+void WgProgressBar_Draw (sWProgressBar*);
+void WgProgressBar_Update (sWProgressBar*);
+
 
 //*****************************************************************************
 //                           Analog indicator widget
-
 typedef struct {
 	int x0;
 	int y0;
-	int width;
-	int heigth;
+	int diametr;
 
 	int min;
 	int max;
@@ -50,6 +49,10 @@ typedef struct {
 
 } sWAnalogNeedle;
 
-void WgAnalogNeedle_Draw (/*sWAnalogNeedle * */);
+void WgAnalogNeedle_SetGeometry (sWAnalogNeedle*, int x0_, int y0_, int width_, int heigth_);
+void WgAnalogNeedle_SetRange (sWAnalogNeedle*, int min_, int max_, int step_);
+void WgAnalogNeedle_SetValue (sWAnalogNeedle*, int value_);
+void WgAnalogNeedle_Draw (sWAnalogNeedle*);
+void WgAnalogNeedle_Update (sWAnalogNeedle*);
 
 #endif
