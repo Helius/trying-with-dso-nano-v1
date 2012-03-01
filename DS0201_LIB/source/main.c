@@ -46,15 +46,16 @@ void main(void)
 	sWAnalogNeedle ndl;
 	WgAnalogNeedle_SetGeometry (&ndl,0,0,200);
 	WgAnalogNeedle_SetRange (&ndl,0,100,10);
-	WgAnalogNeedle_Draw ();
+	WgAnalogNeedle_Draw (&ndl);
 	int t = 0;
 	while(1) {
 		Delayms (200);
 		t++;
 		if (t > 100)
 			t = 0;
-		WgAnalogNeedle_SetValue (t);
-		WgAnalogNeedle_Update ();
+		WgAnalogNeedle_SetValue (&ndl,t);
+		WgAnalogNeedle_Update (&ndl);
+		Draw_Line (0,18,320,18,RGB(20,20,20));
 	}
 /*------------------------------------------------*/
 

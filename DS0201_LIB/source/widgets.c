@@ -151,8 +151,8 @@ void WgAnalogNeedle_SetValue (sWAnalogNeedle * this, int value_)
 //*****************************************************************************
 void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
 {
-	rx = this->x0 + this->diametr/2; 
-	ry = this->y0 + this->diametr/2
+	int rx = this->x0 + this->diametr/2; 
+	int ry = this->y0 + this->diametr/2;
 	// draw border
 	Draw_Circle (rx, ry, this->diametr/2-1, WHITE);
 	Draw_Circle (rx, ry, this->diametr/2-2, WHITE);
@@ -171,9 +171,13 @@ void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
 //*****************************************************************************
 void WgAnalogNeedle_Update (sWAnalogNeedle * this)
 {
+	int rx = this->x0 + this->diametr/2; 
+	int ry = this->y0 + this->diametr/2;
 	float alpha = this->value/360;
-	py = (int)(this->diametr*sin (alpha))/2;
-	px = (int)(this->diametr*cos (alpha))/2;
-	Draw_Line (this->rx, this->ry, px, py, RED);
+	int py = (int)(this->diametr*sin (alpha))/2;
+	int px = (int)(this->diametr*cos (alpha))/2;
+//	int px = rx;
+//	int py = ry;
+	Draw_Line (rx, ry, px, py, RED);
 }
 
