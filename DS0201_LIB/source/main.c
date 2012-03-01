@@ -49,9 +49,9 @@ void main(void)
 	WgAnalogNeedle_Draw (&ndl);
 	int t = 0;
 	while(1) {
-		Delayms (200);
+		Delayms (100);
 		t++;
-		if (t > 100)
+		if (t > 360)
 			t = 0;
 		WgAnalogNeedle_SetValue (&ndl,t);
 		WgAnalogNeedle_Update (&ndl);
