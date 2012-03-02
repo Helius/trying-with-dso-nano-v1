@@ -168,6 +168,7 @@ void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
 //*****************************************************************************
 void WgAnalogNeedle_Update (sWAnalogNeedle * this)
 {
+
 	char str[32];
 	int rx = this->x0 + this->diametr/2; 
 	int ry = this->y0 + this->diametr/2;
@@ -180,12 +181,10 @@ void WgAnalogNeedle_Update (sWAnalogNeedle * this)
 	
 	ang = this->value;
 	py = (this->diametr/2 * sin1000 (ang))/1000;
-	px = (this->diametr/2 * cos1000 (ang))/1000;
+	px = (this->diametr/2 * sin1000 (ang+90))/1000;
 	Draw_Line (rx, ry, px+this->diametr/2, py+this->diametr/2, RED);
 	Draw_Line (rx+1, ry, px+this->diametr/2+1, py+this->diametr/2, RED);
 	
-	Point_SCR (px+this->diametr/2,py+this->diametr/2);
-	Set_Pixel (RED);
 	this->oldValue = this->value;
 }
 
