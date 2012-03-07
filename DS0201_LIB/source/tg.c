@@ -1,4 +1,4 @@
-unsigned int tg [] = 
+unsigned int sint [] = 
 { 0,
 17,
 34,
@@ -93,16 +93,19 @@ unsigned int tg [] =
 
 
 //*****************************************************************************
-static int sin1000 (unsigned int ang)
+static int sin1000 (int ang)
 {
+	while (ang < 0) {
+		ang += 360;
+	}
 	if (ang > 360)
 		ang %= 360;
 	if ((ang >= 0) && (ang <= 90))
-		return tg[ang];
+		return sint[ang];
 	if ((ang > 90) && (ang <= 180))
-		return tg[180-ang];
+		return sint[180-ang];
 	if ((ang > 180) && (ang <= 270))
-		return -tg[ang-180];
+		return -sint[ang-180];
 	if ((ang > 270) && (ang <= 360))
-		return -tg[360-ang];
+		return -sint[360-ang];
 }
