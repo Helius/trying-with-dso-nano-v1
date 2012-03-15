@@ -42,15 +42,23 @@ void main(void)
 
 /*-------------- Analog needle test ------------*/
   Clear_Screen(BLACK); 
+	
+	sWProgressBar pTacho;
+	WgProgressBar_SetGeometry (&pTacho, 320 - 60 - 10, 0, 60, 240-30);
+	WgProgressBar_SetRange (&pTacho, 50, 400, 7);
+	WgProgressBar_Draw (&pTacho);
 
 	sWAnalogNeedle ndl;
-	WgAnalogNeedle_SetGeometry (&ndl,0,0,200);
-	WgAnalogNeedle_SetRange (&ndl,0,400,50);
+	WgAnalogNeedle_SetGeometry (&ndl,0,-20,240);
+	WgAnalogNeedle_SetRange (&ndl,0,400,40);
 	WgAnalogNeedle_Draw (&ndl);
 	int t = 0;
 	int dd = 0;
+	int i = 0;
+	int d = 0;
+
 	while(1) {
-		Delayms (10);
+		Delayms (30);
 		if (dd)
 			t+=3;
 		else
@@ -59,8 +67,20 @@ void main(void)
 			dd = 0;
 		if (t < 5)
 			dd = 1;
+
+		if (!d)
+			i+=5;
+		else
+			i-=10;
+		if (i > 400)
+			d = 1;
+		if (i <= 0)
+			d = 0;
+
 		WgAnalogNeedle_SetValue (&ndl,t);
 		WgAnalogNeedle_Update (&ndl);
+		WgProgressBar_SetValue (&pTacho,i);
+		WgProgressBar_Update (&pTacho);
 	}
 /*------------------------------------------------*/
 
@@ -68,24 +88,26 @@ void main(void)
 
 /*------------- progress bar test ----------------*/
 	Draw_Line (0,18,320,18,RGB(20,20,20));
-	sWProgressBar pTacho;
-	sWProgressBar pFuel;
+
+//	sWProgressBar pTacho;
 	WgProgressBar_SetGeometry (&pTacho, 320 - 60 - 10, 20, 60, 240-30);
-	WgProgressBar_SetGeometry (&pFuel, 10, 20, 60, 240-30);
-	WgProgressBar_SetRange (&pFuel, 50, 150, 10);
 	WgProgressBar_SetRange (&pTacho, 50, 400, 7);
 	WgProgressBar_Draw (&pTacho);
+
+	sWProgressBar pFuel;
+	WgProgressBar_SetGeometry (&pFuel, 10, 20, 60, 240-30);
+	WgProgressBar_SetRange (&pFuel, 50, 150, 10);
 	WgProgressBar_Draw (&pFuel);
 
-	int i = 0;
+//	int i = 0;
 	int y = 0;
-	int d = 0;
+//	int d = 0;
 	int m = 0;
   
 	while (1) {
 		WgProgressBar_SetValue (&pTacho,i);
-		WgProgressBar_SetValue (&pFuel,y);
 		WgProgressBar_Update (&pTacho);
+		WgProgressBar_SetValue (&pFuel,y);
 		WgProgressBar_Update (&pFuel);
 
 		if (!d)

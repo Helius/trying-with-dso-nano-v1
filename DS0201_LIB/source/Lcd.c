@@ -292,9 +292,16 @@ void Draw_Line (int x0, int y0, int x1, int y1, int color)
 	if (abs(x1-x0)>abs(y1-y0)) {
 		int delta = (1024*(y1-y0))/(x1-x0);
 		int i;
-		for (i = 0; i < x1-x0; i++) {
-			Point_SCR (i+x0, y0+(i*delta)/1024);
-			Set_Pixel (color);
+		if (x1 > x0) {
+			for (i = 0; i < x1-x0; i++) {
+				Point_SCR (i+x0, y0+(i*delta)/1024);
+				Set_Pixel (color);
+			}
+		} else {
+			for (i = 0; i < x0-x1; i++) {
+				Point_SCR (x0-i, y0-(i*delta)/1024);
+				Set_Pixel (color);
+			}
 		}
 	} else { // if slope more than 1, calc X(Y)
 		int delta = (1024*(x1-x0))/(y1-y0);

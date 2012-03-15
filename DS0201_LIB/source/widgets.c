@@ -134,7 +134,7 @@ void WgAnalogNeedle_SetRange (sWAnalogNeedle * this, int min_, int max_, int ste
 {
 	this->min = min_;
 	this->max = max_;
-	this->step = step_;
+	this->step = (step_*240)/max_;
 	this->oldValue = 0;
 }
 
@@ -152,14 +152,22 @@ void WgAnalogNeedle_SetValue (sWAnalogNeedle * this, int value_)
 //*****************************************************************************
 void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
 {
-	int rx = this->x0 + this->diametr/2; 
-	int ry = this->y0 + this->diametr/2;
+	int len = this->diametr/2;
+	int rx = this->x0 + len; 
+	int ry = this->y0 + len;
 	// draw border
 	Draw_Circle (rx, ry, this->diametr/2-1, WHITE);
 //	Draw_Circle (rx, ry, this->diametr/2-2, WHITE);
 	Draw_Circle (rx, ry, this->diametr/2-2, BLUE);
 	// draw marks
-	// TODO
+	for (int i = 0; i < 240/this->step + 1; i++) {
+		int ang = 210 - (i*this->step);
+		int bx = (len * sin1000 (ang+90))/1000;
+		int by = (len * sin1000 (ang))/1000;
+		int ex = ((len-10) * sin1000 (ang+90))/1000;
+		int ey = ((len-10) * sin1000 (ang))/1000;
+		Draw_Line (bx+rx, by+ry, ex+rx, ey+ry, WHITE);
+	}
 	// draw text
 	// TODO
 	// draw needle at 0
@@ -174,32 +182,26 @@ void WgAnalogNeedle_Update (sWAnalogNeedle * this)
 	int px, py, ang;
 	char str[32];
 
-	int rx = this->x0 + this->diametr/2; 
-	int ry = this->y0 + this->diametr/2;
+	int len = this->diametr/2;
+	int rx = this->x0 + len; 
+	int ry = this->y0 + len;
 	
 	ang = 210 - (this->oldValue*240)/this->max;
 
-	py = (((this->diametr/2)-10) * sin1000 (ang))/1000;
-	px = (((this->diametr/2)-10) * sin1000 (ang+90))/1000;
-	Draw_Line (rx, ry, px+this->diametr/2, py+this->diametr/2, BLACK);
-	Draw_Line (rx+1, ry, px+this->diametr/2+1, py+this->diametr/2, BLACK);
-	Draw_Line (rx-1, ry, px+this->diametr/2-1, py+this->diametr/2, BLACK);
-	Point_SCR (px+this->diametr/2,py+this->diametr/2);
+	py = ((len-10) * sin1000 (ang))/1000;
+	px = ((len-10) * sin1000 (ang+90))/1000;
+	Draw_Line (rx, ry, px+rx, py+ry, BLACK);
 	Set_Pixel (BLACK);
-
 
 	ang = 210 - (this->value*240)/this->max;
 
-	py = (((this->diametr/2)-10) * sin1000 (ang))/1000;
-	px = (((this->diametr/2)-10) * sin1000 (ang+90))/1000;
-	Draw_Line (rx, ry, px+this->diametr/2, py+this->diametr/2, RED);
-	Draw_Line (rx+1, ry, px+this->diametr/2+1, py+this->diametr/2, RED);
-	Draw_Line (rx-1, ry, px+this->diametr/2-1, py+this->diametr/2, RED);
-	Point_SCR (px+this->diametr/2,py+this->diametr/2);
+	py = ((len-10) * sin1000 (ang))/1000;
+	px = ((len-10) * sin1000 (ang+90))/1000;
+	Draw_Line (rx, ry, px+rx, py+ry, RED);
 	Set_Pixel (RED);
 
-	xsprintf (str, "%d: %d, %d", this->value, ang, sin1000(ang)/10);
-	Draw_Str (10,220, WHITE, BLACK, str);
+	xsprintf (str, "%d", this->value);
+	Draw_Str (this->x0+len-10, this->y0+40, WHITE, BLACK, str);
 	
 	this->oldValue = this->value;
 }
