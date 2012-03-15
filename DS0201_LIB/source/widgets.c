@@ -166,11 +166,25 @@ void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
 		int by = (len * sin1000 (ang))/1000;
 		int ex = ((len-10) * sin1000 (ang+90))/1000;
 		int ey = ((len-10) * sin1000 (ang))/1000;
+		Draw_Line (bx+rx-1, by+ry, ex+rx, ey+ry, WHITE);
+		Draw_Line (bx+rx+1, by+ry, ex+rx, ey+ry, WHITE);
 		Draw_Line (bx+rx, by+ry, ex+rx, ey+ry, WHITE);
 	}
 	// draw text
 	// TODO
 	// draw needle at 0
+}
+
+static void WgAnalogNeedle_UpdateLine (int ang, int rx, int ry, int len, int color)
+{
+	int py = ((len-10) * sin1000 (ang))/1000;
+	int px = ((len-10) * sin1000 (ang+90))/1000;
+	for (int i = 0; i < 4; i++) {
+		int Dy = (i * sin1000 (ang+90))/1000;
+		int Dx = (i * sin1000 (ang+180))/1000;
+		Draw_Line (rx + Dx, ry + Dy, px+rx, py+ry, color);
+		Draw_Line (rx - Dx, ry - Dy, px+rx, py+ry, color);
+	}
 }
 
 //*****************************************************************************
@@ -181,24 +195,14 @@ void WgAnalogNeedle_Update (sWAnalogNeedle * this)
 
 	int px, py, ang;
 	char str[32];
-
 	int len = this->diametr/2;
 	int rx = this->x0 + len; 
 	int ry = this->y0 + len;
 	
 	ang = 210 - (this->oldValue*240)/this->max;
-
-	py = ((len-10) * sin1000 (ang))/1000;
-	px = ((len-10) * sin1000 (ang+90))/1000;
-	Draw_Line (rx, ry, px+rx, py+ry, BLACK);
-	Set_Pixel (BLACK);
-
+	WgAnalogNeedle_UpdateLine (ang, rx, ry, len, BLACK);
 	ang = 210 - (this->value*240)/this->max;
-
-	py = ((len-10) * sin1000 (ang))/1000;
-	px = ((len-10) * sin1000 (ang+90))/1000;
-	Draw_Line (rx, ry, px+rx, py+ry, RED);
-	Set_Pixel (RED);
+	WgAnalogNeedle_UpdateLine (ang, rx, ry, len, RED);
 
 	xsprintf (str, "%d", this->value);
 	Draw_Str (this->x0+len-10, this->y0+40, WHITE, BLACK, str);
