@@ -36,9 +36,9 @@ void WgProgressBar_Draw (sWProgressBar * );
 //*****************************************************************************
 //                           Analog indicator widget
 typedef struct {
-	int x0;
-	int y0;
-	int diametr;
+	int ry;
+	int rx;
+	int Rad;
 
 	int min;
 	int max;

@@ -124,9 +124,12 @@ void WgProgressBar_Update (sWProgressBar * this)
 //*****************************************************************************
 void WgAnalogNeedle_SetGeometry (sWAnalogNeedle * this, int x0_, int y0_, int diametr_)
 {
-	this->x0 = x0_;
-	this->y0 = y0_;
-	this->diametr = diametr_;
+//	this->x0 = x0_;
+//	this->y0 = y0_;
+//	this->diametr = diametr_;
+	this->Rad = diametr_/2;
+	this->rx = x0_ + this->Rad;
+	this->ry = y0_ + this->Rad;
 }
 
 //*****************************************************************************
@@ -150,41 +153,39 @@ void WgAnalogNeedle_SetValue (sWAnalogNeedle * this, int value_)
 }
 
 //*****************************************************************************
-void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
+static void WgAnalogNeedle_UpdateLine (sWAnalogNeedle * this, int ang, int color)
 {
-	int len = this->diametr/2;
-	int rx = this->x0 + len; 
-	int ry = this->y0 + len;
-	// draw border
-	Draw_Circle (rx, ry, this->diametr/2-1, WHITE);
-//	Draw_Circle (rx, ry, this->diametr/2-2, WHITE);
-	Draw_Circle (rx, ry, this->diametr/2-2, BLUE);
-	// draw marks
-	for (int i = 0; i < 240/this->step + 1; i++) {
-		int ang = 210 - (i*this->step);
-		int bx = (len * sin1000 (ang+90))/1000;
-		int by = (len * sin1000 (ang))/1000;
-		int ex = ((len-10) * sin1000 (ang+90))/1000;
-		int ey = ((len-10) * sin1000 (ang))/1000;
-		Draw_Line (bx+rx-1, by+ry, ex+rx, ey+ry, WHITE);
-		Draw_Line (bx+rx+1, by+ry, ex+rx, ey+ry, WHITE);
-		Draw_Line (bx+rx, by+ry, ex+rx, ey+ry, WHITE);
-	}
-	// draw text
-	// TODO
-	// draw needle at 0
-}
-
-static void WgAnalogNeedle_UpdateLine (int ang, int rx, int ry, int len, int color)
-{
-	int py = ((len-10) * sin1000 (ang))/1000;
-	int px = ((len-10) * sin1000 (ang+90))/1000;
+	int py = ((this->Rad-10) * sin1000 (ang))/1000;
+	int px = ((this->Rad-10) * sin1000 (ang+90))/1000;
 	for (int i = 0; i < 4; i++) {
 		int Dy = (i * sin1000 (ang+90))/1000;
 		int Dx = (i * sin1000 (ang+180))/1000;
-		Draw_Line (rx + Dx, ry + Dy, px+rx, py+ry, color);
-		Draw_Line (rx - Dx, ry - Dy, px+rx, py+ry, color);
+		Draw_Line (this->rx + Dx, this->ry + Dy, px+this->rx, py+this->ry, color);
+		Draw_Line (this->rx - Dx, this->ry - Dy, px+this->rx, py+this->ry, color);
 	}
+}
+
+//*****************************************************************************
+void WgAnalogNeedle_Draw (sWAnalogNeedle * this)
+{
+	// draw border
+	Draw_Circle (this->rx, this->ry, this->Rad-1, WHITE);
+	Draw_Circle (this->rx, this->ry, this->Rad-2, BLUE);
+
+	// draw marks
+	for (int i = 0; i < 240/this->step + 1; i++) {
+		int ang = 210 - (i*this->step);
+		int bx = (this->Rad * sin1000 (ang+90))/1000;
+		int by = (this->Rad * sin1000 (ang))/1000;
+		int ex = ((this->Rad-10) * sin1000 (ang+90))/1000;
+		int ey = ((this->Rad-10) * sin1000 (ang))/1000;
+		Draw_Line (bx+this->rx-1, by+this->ry, ex+this->rx, ey+this->ry, WHITE);
+		Draw_Line (bx+this->rx+1, by+this->ry, ex+this->rx, ey+this->ry, WHITE);
+		Draw_Line (bx+this->rx, by+this->ry, ex+this->rx, ey+this->ry, WHITE);
+	}
+	int ang = 210 - (this->oldValue*240)/this->max;
+	WgAnalogNeedle_UpdateLine (this, ang, RED);
+	
 }
 
 //*****************************************************************************
@@ -193,19 +194,16 @@ void WgAnalogNeedle_Update (sWAnalogNeedle * this)
 	if (this->value == this->oldValue)
 		return;
 
-	int px, py, ang;
 	char str[32];
-	int len = this->diametr/2;
-	int rx = this->x0 + len; 
-	int ry = this->y0 + len;
+	int ang;
 	
 	ang = 210 - (this->oldValue*240)/this->max;
-	WgAnalogNeedle_UpdateLine (ang, rx, ry, len, BLACK);
+	WgAnalogNeedle_UpdateLine (this, ang, BLACK);
 	ang = 210 - (this->value*240)/this->max;
-	WgAnalogNeedle_UpdateLine (ang, rx, ry, len, RED);
+	WgAnalogNeedle_UpdateLine (this, ang, RED);
 
 	xsprintf (str, "%d", this->value);
-	Draw_Str (this->x0+len-10, this->y0+40, WHITE, BLACK, str);
+	Draw_Str (this->rx - 10, this->ry - this->Rad/2, WHITE, BLACK, str);
 	
 	this->oldValue = this->value;
 }
